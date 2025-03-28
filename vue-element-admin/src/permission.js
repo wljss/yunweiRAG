@@ -1,3 +1,4 @@
+//修改完后不需要登录了
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'

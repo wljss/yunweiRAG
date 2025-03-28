@@ -40,7 +40,7 @@ module.exports = {
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      [process.env.VUE_APP_BASE_API]: {
+      [process.env.VUE_APP_BASE_API]: { //额外代理端口（貌似是这样？），解决跨域问题
         target: `http://localhost:7861`,
         changeOrigin: true,
         pathRewrite: {
