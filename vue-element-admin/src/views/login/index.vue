@@ -77,6 +77,7 @@
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 import axios from 'axios';
+import { setToken } from '@/utils/auth'
 
 export default {
   name: 'Login',
