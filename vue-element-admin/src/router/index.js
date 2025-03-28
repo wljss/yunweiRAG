@@ -109,6 +109,44 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/rag',
+    component: Layout,
+    redirect: '/rag/page',
+    alwaysShow: true, // will always show the root menu
+    name: 'RAG系统',
+    meta: {
+      title: 'RAG问答',
+      icon: 'lock'
+    },
+    children: [
+      {
+        path: 'page',
+        component: () => import('@/views/RAG/chat'),
+        name: 'RAG对话',
+        meta: {
+          title: 'RAG对话'
+        }
+      },
+      {
+        path: 'directive',
+        component: () => import('@/views/RAG/upload'),
+        name: '知识库上传',
+        meta: {
+          title: '知识库上传'
+          // if do not set roles, means: this page does not require permission
+        }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/permission/role'),
+        name: '知识库管理',
+        meta: {
+          title: '知识库管理'
+        }
+      }
+    ]
+  },
+  {
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',

@@ -14,12 +14,14 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+    config.headers["Access-Control-Allow-Origin"] = '*';
+    config.headers["Content-Type"]= "application/json;charset=UTF-8";
 
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = 'Authorization' + getToken()
     }
     return config
   },

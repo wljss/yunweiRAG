@@ -76,6 +76,7 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
+import axios from 'axios';
 
 export default {
   name: 'Login',
@@ -152,7 +153,75 @@ export default {
         this.$refs.password.focus()
       })
     },
-    handleLogin() {
+    async handleLogin() {
+
+      const data = {
+        "query": '你是谁？',
+        "mode": "local_kb",
+      "kb_name": "yunwei",
+      "top_k": 3,
+      "score_threshold": 2,
+      "history": [
+        {
+          "content": "假如你是一位网络运维工程师",
+          "role": "user"
+        },
+        {
+          "content": "嗯我是一位网络运维工程师",
+          "role": "assistant"
+        }
+      ],
+      "stream": "true",
+      "model": "qwen2.5:3b",
+      "temperature": 0.7,
+      "max_tokens": 0,
+      "prompt_name": "default",
+      "return_direct": "false"
+      };
+      console.log('现在在send()2')
+      console.log(data)
+      /*
+      axios.post('/chat/kb_chat',data,{
+            headers: {
+                'Content-Type': 'application/json' // 设置请求头为JSON格式
+            }
+        })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          // 处理错误
+        });
+      */
+
+
+      try {
+      const response = await fetch('/chat/kb_chat', {
+        method: 'POST',
+        headers: {
+                'Content-Type': 'application/json' // 设置请求头为JSON格式
+            },
+        body: JSON.stringify(data)
+      });
+
+      console.log(`响应状态码: ${response.status}`);
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while(true) {
+        const { done, value } = await reader.read();
+        if(done) break;
+        const chunk = decoder.decode(value);
+        // 处理每个数据块
+        console.log('收到数据块:', chunk);
+        // 如果需要更新 Vue 数据，可以使用 this.xxx = ...
+      }
+    } catch (error) {
+      console.error('请求失败:', error);
+    }
+
+
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
