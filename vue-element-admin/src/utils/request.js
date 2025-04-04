@@ -14,8 +14,8 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    config.headers["Access-Control-Allow-Origin"] = '*'; // 解决跨域问题
-    config.headers["Content-Type"]= "application/json;charset=UTF-8";
+    config.headers['Access-Control-Allow-Origin'] = '*' // 解决跨域问题
+    config.headers['Content-Type'] = 'application/json;charset=UTF-8'
 
     if (store.getters.token) {
       // let each request carry token
